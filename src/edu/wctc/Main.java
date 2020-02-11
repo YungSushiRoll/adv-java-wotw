@@ -1,7 +1,6 @@
 package edu.wctc;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
@@ -39,9 +38,53 @@ public class Main {
             }
         }
 
-        // Loop over entries in the map, getting each key/value pair
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
+        Scanner keyboard = new Scanner(System.in);
+        String resp = "0";
+        while (!resp.equals("4"))
+        {
+            System.out.println("\nWhat would you like to do?\n" +
+                    "1. Display top 10 most used words\n" +
+                    "2. Display words only used once\n" +
+                    "3. Display all words with how many uses\n" +
+                    "4. Leave");
+            resp = keyboard.nextLine();
+            if (resp.equals("1")) {
+                System.out.println("--- Top 10 used words with amount ---\n");
+                List<Map.Entry<String, Integer>> topTen = new LinkedList<>(map.entrySet());
+                Collections.sort(topTen, new Comparator<Map.Entry<String, Integer>>(){
+
+                    @Override
+                    public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                        return o2.getValue().compareTo(o1.getValue());
+                    }
+                });
+
+                int loopCount = 1;
+                    for (Map.Entry<String, Integer> item : topTen) {
+                        if (loopCount <= 10) {
+                            System.out.println(loopCount +": " + item);
+                        }
+                        loopCount++;
+                    }
+            }
+            if (resp.equals("2")) {
+                System.out.println("--- Words that were only used once ---\n");
+                int count = 1;
+                for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                    if (entry.getValue() == 1){
+                        System.out.println(count + ": " + entry.getKey() + " " + entry.getValue());
+                        count++;
+                    }
+                }
+            }
+            if (resp.equals("3")) {
+                System.out.println("--- All words with amount ---\n");
+                int count = 1;
+                for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                        System.out.println(count + ": " + entry.getKey() + " " + entry.getValue());
+                        count++;
+                }
+            }
         }
     }
 
